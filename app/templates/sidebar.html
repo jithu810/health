@@ -1,0 +1,44 @@
+<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center text-light" >
+      <div class="sidebar-brand-icon">
+          <!-- <img src="static/img/logo/logo2.png"> -->
+      </div>
+      <div class="sidebar-brand-text mx-3">Health</div>
+  </a>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item active">
+      <a class="nav-link">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+  </li>
+  <hr class="sidebar-divider">
+  <li class="nav-item active">
+      <a class="nav-link" href="javascript:history.back()">
+        <i class="fas fa-solid fa-arrow-left"></i>
+          <span>Back</span></a>
+  </li>
+  <hr class="sidebar-divider">
+
+  <div class="container" style="height: 485px; overflow-y: auto;">
+      <center>
+          {% for i in key %}
+          <div class="row">
+              <div class="col-md-10">
+                  <li class="nav-item mt-4">
+                      <button class="btn btn-primary text-light">
+                          {{ i }}
+                      </button>
+                  </li>
+              </div>
+              <div class="col-md-1 mt-4">
+                  <!-- Ensure each checkbox has a unique data-id -->
+                  <input type="checkbox" id="sidebarCheckbox{{ i }}" data-id="{{ i }}" >
+              </div>
+          </div>
+          {% endfor %}
+      </center>
+  </div>
+
+  <hr class="sidebar-divider">
+  <!-- <div class="version" id="version-ruangadmin"></div> -->
+</ul>

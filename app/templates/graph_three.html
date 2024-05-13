@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form action="pie_chart" method="post">
+                    {% csrf_token %}
+                    {% for key, value in count_value.items %}
+                        <div class="row">
+                            <input type="hidden" name="{{ key }}_key" value="{{selected_value}}">
+
+                            <div class="col-2">
+                                <label for="{{ key }}_disability">Incidents ({{ key }}):</label>
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ key }}_input1">Disability Weights ({{ key }}):</label>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ key }}_input2">Deaths ({{ key }}):</label>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ key }}_input3">L ({{ key }}):</label>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ key }}_input4">LYLL ({{ key }}):</label>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-2">
+                                
+                                <input type="number" step="0.001" name="{{ key }}_count" value={{value}} class="form-control">
+                            </div>
+                            <div class="col-3">
+                                
+                                <input type="number" name="{{ key }}_input1" value={{Disability_weight}} class="form-control">
+                            </div>
+                            <div class="col-2">
+                                
+                                <input type="number" name="{{ key }}_input2" value="{{deaths}}" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                
+                                <input type="number" name="{{ key }}_input3" value="0" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                
+                                <input type="number" name="{{ key }}_input4" value="0" class="form-control">
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div style="padding:10px;">
+                        <center>
+                            <button type="submit" class="btn-primary text-light">Calculate</button>
+                        </center>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if DALY %}
+                    <p>DALY: {{ DALY }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

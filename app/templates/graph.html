@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div id="color-reference" style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: red; margin-right: 5px;"></div>
+            <span>Severe anemia</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: green; margin-right: 5px;"></div>
+            <span>Mild anemia</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: blue; margin-right: 5px;"></div>
+            <span>Moderate anemia</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div style="width: 20px; height: 20px; background-color: yellow; margin-right: 5px;"></div>
+            <span>Normal anemia</span>
+        </div>
+    </div>
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+    <input type="hidden" value="{{ keys_list|safe }}" id="keys_list">
+    <input type="hidden" value="{{ values_list|safe }}" id="values_list">
+    <input type="hidden" value="{{ input }}" id="input">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+    // Retrieve values from hidden inputs
+    const valueListInput = document.getElementById('values_list').value;
+    const ListInput = document.getElementById('input').value;
+
+    // Parse the values to arrays
+    const xValues = JSON.parse(ListInput);
+    const yValues = JSON.parse(valueListInput);
+
+    // Define an array of colors for each point
+    const colors = ['red','green','blue','yellow'];
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: colors, // Use the defined colors array
+                borderColor: "rgba(0,0,255,0.1)", // Use the defined colors array for border color as well
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Daly' // Set x-axis label
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Count' // Set y-axis label
+                    },
+                    ticks: {
+                        beginAtZero: true // Start y-axis from zero
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+{% endblock %}

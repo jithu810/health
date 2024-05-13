@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                <!-- Ensure data is passed as JSON, and use double quotes for attributes -->
+                <input type="hidden" value='{{ all_list|safe }}' id="all_list">
+            </div>
+            <div class="col-md-4">
+                {% for key2, value in key2.items %}
+                <form action="graph_three" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ key2 }}" name="selected_value">
+                    <input type="submit" class="btn-primary text-light resultButton mt-4" 
+                    style="padding: 10px;margin: 10px;"
+                    data-id="{{ i }}" value="{{ key2 }}">
+                </form>
+                    {% endfor %}
+                </div>
+        </div>
+        
+        <!-- <form action="gggraph" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn-primary text-light resultButton mt-4" 
+            style="padding: 10px;margin: 10px;"
+             value="plot graph">
+        </form> -->
+        
+    </div>
+
+    <script>
+        // Get the JSON string from the hidden input field
+        var jsonString = document.getElementById('all_list').value;
+
+        // Parse the JSON string into a JavaScript object
+        var jsonData = JSON.parse(jsonString);
+    
+        // Extract labels, data, and colors from jsonData
+        var labels = jsonData.map(function(item) {
+            return item.label;
+        });
+
+        var data = jsonData.map(function(item) {
+            return item.count;
+        });
+
+        // Prepare colors if available in the JSON data
+        var colors = jsonData.map(function(item) {
+            return item.color;
+        });
+
+        // Create the pie chart
+        new Chart("myChart", {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors, // optional
+                    borderColor: 'transparent', // optional
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Pie Chart'
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}

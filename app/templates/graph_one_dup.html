@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+        <input type="hidden" value="{{ all_list|safe }}" id="all_list">
+    </div>
+
+    <script>
+        // Get the JSON string from the hidden input field
+        // var jsonString = document.getElementById('all_list').value;
+        // var jsonData = JSON.parse(jsonString);
+        var jsonData = [{"label": "Female", "color": "#B506D7", "count": 835},
+         {"label": "Male", "color": "#B5D202", "count": 872}]
+
+        // Extract labels and data from the JSON data
+        var labels = jsonData.map(function(item) {
+            return item.label;
+        });
+
+        var data = jsonData.map(function(item) {
+            return item.count;
+        });
+
+        // Prepare colors if available in the JSON data
+        var colors = jsonData.map(function(item) {
+            return item.color;
+        });
+
+        
+
+        // Create the pie chart
+        new Chart("myChart", {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors, // optional
+                    borderColor: 'transparent', // optional
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: 'Pie Chart'
+            }
+            }
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}

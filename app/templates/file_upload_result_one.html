@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="">
+            <div class="row">
+                
+                {% for i in key %}
+                <form action="graph_one" method="post">
+                    {% csrf_token %}
+                    <div class="mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1"></div>
+                        <center>
+                            <input type="hidden" value="{{i}}" name="selected_value">
+                            <input type="submit" class="btn-primary text-light resultButton" data-id="{{ i }}" value="{{ i }}" style="display: none;"  >
+                        </center>
+                        
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                        <div class="mt-2 mb-0 text-muted text-xs">
+                            <span class="text-success mr-2"></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+                
+            </div>
+            
+            <!-- <div class="card h-100">
+                {% for i in key %}
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1"></div>
+                            
+                            <center>
+                                <button class="btn-primary text-danger resultButton" style="display: none;"
+                                    data-id="{{ i }}"><a href="{% url 'graph_one' %}?i={{ i }}"
+                                        class="text-light">{{ i }}</a></button>
+                            </center>
+                            
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                <span class="text-success mr-2"></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div> -->
+           
+        </div>
+    </div>
+</div>
+  
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Detect changes in any sidebar checkbox
+    $('input[type="checkbox"]').change(function () {
+        var checkboxId = $(this).data('id');
+
+        // Check if the checkbox is checked
+        if ($(this).is(':checked')) {
+            // If checked, show the corresponding button in result.html
+            $('.resultButton[data-id="' + checkboxId + '"]').show();
+        } else {
+            // If unchecked, hide the corresponding button in result.html
+            $('.resultButton[data-id="' + checkboxId + '"]').hide();
+        }
+    });
+});
+</script>
+
+{% endblock %}

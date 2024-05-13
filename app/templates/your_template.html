@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'gggraph' %}" id="yearForm">
+    {% csrf_token %}
+    <select name="yearRange" onchange="document.getElementById('yearForm').submit();" class="form-control col-3">
+        <option value="4">select</option>
+        <option value="4">Last 4 Years</option>
+        <option value="5">Last 5 Years</option>
+        <option value="10">Last 10 Years</option>
+        <option value="20">Last 20 Years</option>
+    </select>
+</form>
+
+
+
+    <canvas id="anemiaChart" width="800" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx = document.getElementById('anemiaChart').getContext('2d');
+            var chartData = JSON.parse('{{ chart_data|escapejs }}');
+
+            // Log chart data to see if it's correctly formatted
+            console.log("Chart Data:", chartData);
+
+            var datasets = [];
+            chartData.forEach(function(data) {
+                datasets.push({
+                    label: data.label,
+                    data: data.data,
+                    borderColor: getRandomColor(),
+                    fill: false
+                });
+            });
+
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+        });
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+{% endblock %}
